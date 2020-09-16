@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import (QMainWindow, QApplication, QWidget, QGridLayout, QH
 QLabel, QLineEdit, QPushButton,
 QFileDialog, QListWidget, QListWidgetItem)
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, pyqtSlot
+from add_field import AddField
 
 class dgGUI(QMainWindow):
     ''' 
@@ -47,6 +48,7 @@ class dgGUI(QMainWindow):
         file_location_btn.clicked.connect(self.set_save_file_name)
 
         add_field_btn = QPushButton('Add Field...')
+        add_field_btn.clicked.connect(self.show_add_field_dialog)
         add_field_btn.setToolTip('Add a new field to the list.')
         add_field_btn.setIcon(QIcon('resources/add_col.png'))
         add_field_btn.setIconSize(QSize(30,30))
@@ -89,6 +91,17 @@ class dgGUI(QMainWindow):
 
         if self.file_name:
             self.file_location_edit.setText(self.file_name)
+    
+    @pyqtSlot()
+    def show_add_field_dialog(self):
+        '''
+        Display Add new field dialog
+        '''
+        add_field_dlg = AddField(self)
+        if add_field_dlg.exec_():
+            print('Added')
+        else:
+            print('Not added')
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
